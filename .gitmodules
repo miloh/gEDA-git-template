@@ -1,3 +1,6 @@
 [submodule "gaf-symbols"]
 	path = gaf-symbols
 	url = git@github.com:miloh/gaf-symbols.git
+[submodule "gaf-footprints"]
+	path = gaf-footprints
+	url = git@github.com:miloh/gaf-footprints.git
