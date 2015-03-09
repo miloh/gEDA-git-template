@@ -76,6 +76,12 @@ earlier versions to keep the project synced
 git submodule update --init  --recursive
 ````
 
+note that gschem should use a local file 'gafrc' with a line in scheme
+that configures the directory for local symbol libraries.
+
+PCB preferences must be changed to find local footprints, I do this
+in the PCB gui currently but I imagine there are other ways.
+
 Using schdiff with git's difftool
 ---------------------------------
 schdiff allows the user to compare schematics from different versions.
