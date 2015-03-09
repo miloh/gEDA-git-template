@@ -1,0 +1,3 @@
+[submodule "gaf-symbols"]
+	path = gaf-symbols
+	url = git@github.com:miloh/gaf-symbols.git
