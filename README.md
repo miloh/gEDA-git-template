@@ -2,6 +2,22 @@ git-gaf-template
 ===========
 template project for hardware design using gaf.
 
+
+use
+---
+
+fork the template, grab a copy of the repo and use it as follows: 
+(github, my account 'miloh', and the throwaway name 'newproject' are used as examples)
+````git clone --depth 1 --origin template git@github.com:miloh/git-gaf-template.git newproject````
+
+then go to github, create newproject. 
+
+update your system with the new project on github (or a git server, change accordingly)
+````
+git remote add origin git@github.com:miloh/newproject.git
+git push -u origin master
+```` 
+
 terminology and description
 ---------------------------
 
