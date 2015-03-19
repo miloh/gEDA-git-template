@@ -5,9 +5,11 @@ template project for hardware design using gaf.
 terminology and description
 ---------------------------
 
-gaf == gEDA & friends. && gaf == an eponymous cli for use with gEDA & friends.
+as far as I understand it:
 
-gEDA == 
+gaf stands for gEDA & friends, and gaf is also an eponymous cli for use with gEDA & friends.
+
+gEDA is a suite of tools 
 * gschem - shematic editor that has some operational similarity to old versions of OrCAD
 * pcb, aka PCB - powerful floss circuit layout program
 * gnetlist outputs a number of netlist formats from gschem, part of the sim workflow 
