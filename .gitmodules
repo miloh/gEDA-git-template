@@ -1,0 +1,6 @@
+[submodule "gpcb-footprints"]
+	path = gpcb-footprints
+	url = https://github.com/miloh/gpcb-footprints
+[submodule "geda-symbols"]
+	path = geda-symbols
+	url = https://github.com/miloh/geda-symbols
