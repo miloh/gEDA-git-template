@@ -6,8 +6,8 @@ NAME= project-template
 SHELL=/bin/bash
 SCH=sch
 PCB=pcb
-SYM=gaf-symbols
-FP=gaf_footprints
+SYM=geda-symbols
+FP=gpcb-footprints
 SS=subcircuits
 FORCE=NO
 # variables using the Make builtin shell expression/expansion
@@ -28,7 +28,7 @@ layout-ps = $(patsubst %.pcb, $(REV)-%.pcb.ps, $(pcb-files))
 # $<  is the automatic variable for the target
 .PHONY: list-gedafiles 
 list-gedafiles:
-	#Nothing requested, default goal is to list gedafiles located top level directory
+	#Nothing requested, default goal is to list gedafiles located in the top level directory
 	@$(foreach asset, $(pcb-files), echo $(asset);)
 	@$(foreach asset, $(schematic-files), echo $(asset);)
 .PHONY: ps gerbers osh-park-gerbers clean
