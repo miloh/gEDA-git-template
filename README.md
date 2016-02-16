@@ -124,7 +124,7 @@ git difftool -x schdiff HEAD~30 project.sch
 Squashing the history after copying the template
 ------------------------------------------------
 
-This template projects history doesn't need to be part of the history a specific project that uses it
+The history of this template project doesn't need to be part of the history a specific project that uses it
 To squash the history, you can rebase back to the first commit.
 
 ````
