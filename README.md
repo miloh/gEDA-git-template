@@ -22,20 +22,16 @@ git remote add origin git@github.com:miloh/newproject.git
 git push -u origin master
 ```` 
 
-Terminology & Description
--------------------------
-
-As far as I understand it:
-
-gaf is for gEDA & friends, and gaf is also an eponymous cli for use with gEDA & friends.
+gEDA Terminology & Description
+------------------------------
 
 gEDA is a suite of tools 
 * gschem - electronic schematic editor that has some operational similarity to old versions of OrCAD
 * gnetlist outputs a number of netlist formats from gschem, part of the sim workflow 
 * schdiff - works as a git difftool and uses imagemagick to generate visual diffs of gschem schematics
 * refdes\_renum a tool for giving unique 'reference designations' to symbols in a sch file
-* spice tools -- there's no official spice package designated for use with geda-gaf. with complete symbols, gnetlist should create
-  output that works with a variety of  spice packages 
+* gaf stands for gschem & friends, an eponymous cli for use with gschem & friends.
+* spice tools -- thofficial spice package for use with geda-gaf. with complete symbols, gnetlist creates spice compatible netwlist
 * pcb, aka PCB or what I'll call gEDA's PCB - a powerful and fun floss circuit layout program
 * other projects are anything I've forgotten
 
