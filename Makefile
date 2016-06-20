@@ -28,7 +28,10 @@ layout-ps = $(patsubst %.pcb, $(REV)-%.pcb.ps, $(pcb-files))
 # $<  is the automatic variable for the target
 .PHONY: list-gedafiles 
 list-gedafiles:
-	#Nothing requested, default goal is to list gedafiles located in the top level directory
+	#Nothing requested, default goal is to list details
+	# project name 
+	@$(foreach asset, $(NAME), echo $(NAME);)
+	# geda files in the top directory level
 	@$(foreach asset, $(pcb-files), echo $(asset);)
 	@$(foreach asset, $(schematic-files), echo $(asset);)
 .PHONY: ps gerbers osh-park-gerbers clean
