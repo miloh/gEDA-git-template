@@ -109,4 +109,4 @@ hackvana-gerbers.zip : hackvana-gerbers
 	zip -j $@ hackvana-gerbers/*
 	@echo "Be sure to add a version number to the zip file name"
 clean:
-	rm -f *~ *- *.backup *.new.pcb *.png *.bak *.gbr *.cnc *.ps *{pcb,sch}.pdf
+	rm -f *~ *- *.backup *.new.pcb *.png *.bak *.gbr *.cnc *.ps, *{pcb,sch}.pdf, *.csv
