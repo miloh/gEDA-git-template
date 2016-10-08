@@ -14,11 +14,13 @@ throwaway name 'newproject' are used as examples)
 git clone git@github.com:miloh/git-gaf-template.git newproject
 cd newproject
 ````
-make a few commits, or go directly to a git server and/or github, create newproject. 
+edit this README.md and the Makefile
+make a commits,
+go to your remote  git server an create newproject. 
 
 ````
 git remote rm origin
-git remote add origin git@github.com:miloh/newproject.git
+git remote add origin URL
 git push -u origin master
 ```` 
 
