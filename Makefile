@@ -51,18 +51,12 @@ endif
 endif
 	# the following target exports postscript assets from *.sch and *.pcb files in HEAD using a tags 
 	# exporting layout as postscript using pcb...
-	@$(foreach asset, $(pcb-files), sed -i "s/\$$ver=/$(SHORTREV)/"
-	$(asset); pcb -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
+	@$(foreach asset, $(pcb-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset); pcb -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
 	# pcb layout to postscript export complete
 	# processing titleblock keywords, exporting schematic as postscript using gaf, and restoring  HEAD
 	# DANGER, we will discard changes to the schematic file in the working directory now.  
 	# This assumes that the working dir was clean before make was called and should be rewritten as an atomic operation
-	$(foreach asset, $(schematic-files),
-	sed -i "s/\(date=\).*/\1$\$(DATE)/" $(asset);
-	sed -i "s/\(auth=\).*/\1$\$(AUTHOR)/" $(asset);
-	sed -i "s/\(fname=\).*/\1$\$(asset)/" $(asset);
-	sed -i "s/\(rev=\).*/\1$\$(SHORTREV) $\$(TAG)/" $(asset);
-	gaf export -c -o $(REV)-$(asset).$@  -- $(asset); git checkout -- $(asset);)
+	$(foreach asset, $(schematic-files), sed -i "s/\(date=\).*/\1$\$(DATE)/" $(asset); sed -i "s/\(auth=\).*/\1$\$(AUTHOR)/" $(asset); sed -i "s/\(fname=\).*/\1$\$(asset)/" $(asset); sed -i "s/\(rev=\).*/\1$\$(SHORTREV) $\$(TAG)/" $(asset); gaf export -c -o $(REV)-$(asset).$@  -- $(asset); git checkout -- $(asset);)
 	# gschem schematic to postscript export complete
 #PDF EXPORT
 pdf: ps
