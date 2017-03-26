@@ -14,7 +14,6 @@ FORCE=NO
 # not sure if = is a good assignment operator or if =! or =: would be better
 DATE = $(shell date +"%b-%d-%Y")
 AUTHOR = $(shell git config --global -l | grep user.name | cut -d "=" -f2)
-REV = $(shell git describe --tags --long)
 LONGREV = $(shell git describe --tags --long)
 SHORTREV = $(shell git describe --tags)
 STATUS = $(shell git status -z -uno)
@@ -22,8 +21,8 @@ CHECKINS = $(shell git status --porcelain *.pcb *.sch)
 
 pcb-files = $(wildcard *.pcb)
 schematic-files = $(wildcard *.sch)
-schematic-ps = $(patsubst %.sch, $(REV)-%.sch.ps, $(schematic-files)) 
-layout-ps = $(patsubst %.pcb, $(REV)-%.pcb.ps, $(pcb-files)) 
+schematic-ps = $(patsubst %.sch, $(SHORTREV)-%.sch.ps, $(schematic-files))
+layout-ps = $(patsubst %.pcb, $(SHORTREV)-%.pcb.ps, $(pcb-files))
 # $@  is the automatic variable for the prerequisite
 # $<  is the automatic variable for the target
 .PHONY: list-gedafiles 
@@ -45,19 +44,25 @@ ifneq ($(CHECKINS),)
 endif
 	#working state of pcb and sch files is clean
 	#Check for tags in the git repo
-ifeq ($(REV),)
+ifeq ($(LONGREV),)
 	$(error error: revision history has no tags to work with, add one and try again)
 endif
 	#Tags found, proceeding
 endif
 	# the following target exports postscript assets from *.sch and *.pcb files in HEAD using a tags 
 	# exporting layout as postscript using pcb...
-	@$(foreach asset, $(pcb-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset); pcb -x ps --psfile $(REV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
+	@$(foreach asset, $(pcb-files), sed -i "s/\$$ver=/$(SHORTREV)/"
+	$(asset); pcb -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
 	# pcb layout to postscript export complete
 	# processing titleblock keywords, exporting schematic as postscript using gaf, and restoring  HEAD
 	# DANGER, we will discard changes to the schematic file in the working directory now.  
 	# This assumes that the working dir was clean before make was called and should be rewritten as an atomic operation
-	$(foreach asset, $(schematic-files), sed -i "s/\(date=\).*/\1$\$(DATE)/" $(asset);sed -i "s/\(auth=\).*/\1$\$(AUTHOR)/" $(asset); sed -i "s/\(fname=\).*/\1$\$(asset)/" $(asset); sed -i "s/\(rev=\).*/\1$\$(REV) $\$(TAG)/" $(asset); gaf export -c -o $(REV)-$(asset).$@  -- $(asset); git checkout -- $(asset);)
+	$(foreach asset, $(schematic-files),
+	sed -i "s/\(date=\).*/\1$\$(DATE)/" $(asset);
+	sed -i "s/\(auth=\).*/\1$\$(AUTHOR)/" $(asset);
+	sed -i "s/\(fname=\).*/\1$\$(asset)/" $(asset);
+	sed -i "s/\(rev=\).*/\1$\$(SHORTREV) $\$(TAG)/" $(asset);
+	gaf export -c -o $(REV)-$(asset).$@  -- $(asset); git checkout -- $(asset);)
 	# gschem schematic to postscript export complete
 #PDF EXPORT
 pdf: ps
@@ -66,10 +71,10 @@ pdf: ps
 	# pdf exported
 #BOM export
 pcb-bom:  $(NAME).pcb
-	pcb -x bom --bomfile $(NAME)-pcb-bom.csv $<
+	pcb -x bom --bomfile $(SHORTREV)-$(NAME)-pcb-bom.csv $<
 # assembly bom is column seperated
 gnetlist-bom: $(NAME).sch
-	gnetlist -g bom $< -o $(NAME)-assembly-bom.csv $<
+	gnetlist -g bom $< -o $(SHORTREV)-$(NAME)-assembly-bom.csv $<
 # GERBERS (props to https://github.com/bgamari)
 gerbers: $(NAME).pcb 
 	rm -Rf gerbers
@@ -118,12 +123,12 @@ ifneq ($(CHECKINS),)
 endif
 	#working state of pcb and sch files is clean
 	#Check for tags in the git repo
-ifeq ($(REV),)
+ifeq ($(LONGREV),)
 	$(error error: revision history has no tags to work with, add one and try again)
 endif
 	#Tags found, proceeding
 endif
 	# this target archives the repo from the current tag
-	git archive HEAD --format=zip --prefix=$(REV)/  > $(REV).zip
+	git archive HEAD --format=zip --prefix=$(LONGREV)/  > $(LONGREV).zip
 clean:
 	rm -f *~ *- *.backup *.new.pcb *.png *.bak *.gbr *.cnc *.ps *{pcb,sch}.pdf *.csv *.xy
