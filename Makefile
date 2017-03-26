@@ -5,7 +5,7 @@ NAME= project-template
 #
 SHELL=/bin/bash
 SCH=sch
-PCB=pcb
+PCB=pcb-rnd
 SYM=geda-symbols
 FP=gpcb-footprints
 SS=subcircuits
