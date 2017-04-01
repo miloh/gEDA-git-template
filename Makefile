@@ -20,9 +20,11 @@ STATUS = $(shell git status -z -uno)
 CHECKINS = $(shell git status --porcelain *.pcb *.sch)
 
 pcb-files = $(wildcard *.pcb)
+pcb-rnd-files = $(patsubst project.lht,,$(wildcard *.lht))
 schematic-files = $(wildcard *.sch)
 schematic-ps = $(patsubst %.sch, $(SHORTREV)-%.sch.ps, $(schematic-files))
-layout-ps = $(patsubst %.pcb, $(SHORTREV)-%.pcb.ps, $(pcb-files))
+pcb-layout-ps = $(patsubst %.pcb, $(SHORTREV)-%.pcb.ps, $(pcb-files))
+pcb-rnd-layout-ps = $(patsubst %.lht, $(SHORTREV)-%.lht.ps, $(pcb-rnd-files))
 # $@  is the automatic variable for the prerequisite
 # $<  is the automatic variable for the target
 .PHONY: list-gedafiles 
@@ -32,6 +34,7 @@ list-gedafiles:
 	@$(foreach asset, $(NAME), echo $(NAME);)
 	# geda files in the top directory level
 	@$(foreach asset, $(pcb-files), echo $(asset);)
+	@$(foreach asset, $(pcb-rnd-files), echo $(asset);)
 	@$(foreach asset, $(schematic-files), echo $(asset);)
 .PHONY: ps gerbers osh-park-gerbers clean
 ps:
@@ -52,6 +55,7 @@ endif
 	# the following target exports postscript assets from *.sch and *.pcb files in HEAD using a tags 
 	# exporting layout as postscript using pcb...
 	@$(foreach asset, $(pcb-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset); $(PCB) -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
+	@$(foreach asset, $(pcb-rnd-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset); $(PCB) -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
 	# pcb layout to postscript export complete
 	# processing titleblock keywords, exporting schematic as postscript using gaf, and restoring  HEAD
 	# DANGER, we will discard changes to the schematic file in the working directory now.  
@@ -61,7 +65,8 @@ endif
 #PDF EXPORT
 pdf: ps
 	@$(foreach asset, $(schematic-ps), ps2pdf $(asset);)
-	@$(foreach asset, $(layout-ps), ps2pdf $(asset);)
+	@$(foreach asset, $(pcb-layout-ps), ps2pdf $(asset);)
+	@$(foreach asset, $(pcb-rnd-layout-ps), ps2pdf $(asset);)
 	# pdf exported
 #BOM export
 pcb-bom:  $(NAME).pcb
@@ -125,4 +130,4 @@ endif
 	# this target archives the repo from the current tag
 	git archive HEAD --format=zip --prefix=$(LONGREV)/  > $(LONGREV).zip
 clean:
-	rm -f *~ *- *.backup *.new.pcb *.png *.bak *.gbr *.cnc *.ps *{pcb,sch}.pdf *.csv *.xy
+	rm -f *~ *- *.backup *.new.pcb *.png *.bak *.gbr *.cnc *.{pcb,sch,lht}.ps *.{pcb,sch,lht}.pdf *.csv *.xy
