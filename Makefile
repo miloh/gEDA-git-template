@@ -55,7 +55,7 @@ endif
 	# the following target exports postscript assets from *.sch and *.pcb files in HEAD using a tags 
 	# exporting layout as postscript using pcb...
 	@$(foreach asset, $(pcb-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset); $(PCB) -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
-	@$(foreach asset, $(pcb-rnd-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset); $(PCB) -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);) 
+	@$(foreach asset, $(pcb-rnd-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset); $(PCB) -x ps --psfile $(SHORTREV)-$(asset).$@ $(asset); git checkout -- $(asset);)
 	# pcb layout to postscript export complete
 	# processing titleblock keywords, exporting schematic as postscript using gaf, and restoring  HEAD
 	# DANGER, we will discard changes to the schematic file in the working directory now.  
@@ -80,8 +80,10 @@ gerbers: $(NAME).pcb
 	mkdir gerbers
 	# use shell to edit version string with values from 'git describe'
 	$(foreach asset, $(pcb-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset);)
+	$(foreach asset, $(pcb-rnd-files), sed -i "s/\$$ver=/$(SHORTREV)/" $(asset);)
 	$(PCB) -x gerber --gerberfile gerbers/$(NAME) $<
 	$(foreach asset, $(pcb-files), git checkout -- $(asset);)
+	$(foreach asset, $(pcb-rnd-files), git checkout -- $(asset);)
 osh-park-gerbers: gerbers
 	rm -Rf $@
 	mkdir -p $@
