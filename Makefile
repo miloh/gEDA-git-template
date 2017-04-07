@@ -43,7 +43,7 @@ ifneq ($(FORCE),YES)
 	#FORCE is not set, proceeding with repo checks...
 	#Check that schematic and pcb content is clean
 ifneq ($(CHECKINS),)
-	$(error error: untracked schematic or pcb content, check with 'git status *lht *pcb *sch', add content or override)
+	$(error error: untracked schematic or pcb content, check with 'git status *.lht *.pcb *.sch', add content or override)
 endif
 	#working state of pcb and sch files is clean
 	#Check for tags in the git repo
