@@ -17,7 +17,7 @@ AUTHOR = $(shell git config --global -l | grep user.name | cut -d "=" -f2)
 LONGREV = $(shell git describe --tags --long)
 SHORTREV = $(shell git describe --tags)
 STATUS = $(shell git status -z -uno)
-CHECKINS = $(shell git status --porcelain *.pcb *.sch)
+CHECKINS = $(shell git status --porcelain *.lht *.pcb *.sch)
 
 pcb-files = $(wildcard *.pcb)
 pcb-rnd-files = $(patsubst project.lht,,$(wildcard *.lht))
