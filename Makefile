@@ -71,11 +71,13 @@ pdf: ps
 #BOM export
 pcb-bom:  $(NAME).pcb
 	$(PCB) -x bom --bomfile $(SHORTREV)-$(NAME)-pcb-bom.csv $<
+pcb-rnd-bom:  $(NAME).lht
+	$(PCB) -x bom --bomfile $(SHORTREV)-$(NAME)-pcb-rnd-bom.csv $<
 # assembly bom is column seperated
 gnetlist-bom: $(NAME).sch
 	gnetlist -g bom $< -o $(SHORTREV)-$(NAME)-assembly-bom.csv $<
 # GERBERS (props to https://github.com/bgamari)
-gerbers: $(NAME).pcb 
+gerbers: $(NAME).lht
 	rm -Rf gerbers
 	mkdir gerbers
 	# use shell to edit version string with values from 'git describe'
@@ -120,16 +122,16 @@ ifneq ($(FORCE),YES)
 	#FORCE is not set, proceeding with repo checks...
 	#Check that schematic and pcb content is clean
 ifneq ($(CHECKINS),)
-	$(error error: untracked schematic or pcb content, check with 'git status *pcb *sch', add content or override)
+	$(error error: untracked schematic or pcb content, check with 'git status *.lht *.pcb *.sch', add content or override)
 endif
 	#working state of pcb and sch files is clean
 	#Check for tags in the git repo
-ifeq ($(LONGREV),)
+ifeq ($(SHORTREV),)
 	$(error error: revision history has no tags to work with, add one and try again)
 endif
 	#Tags found, proceeding
 endif
 	# this target archives the repo from the current tag
-	git archive HEAD --format=zip --prefix=$(LONGREV)/  > $(LONGREV).zip
+	git archive HEAD --format=zip --prefix=$(SHORTREV)-$(NAME)/ > $(SHORTREV)-$(NAME).zip
 clean:
 	rm -f *~ *- *.backup *.new.pcb *.png *.bak *.gbr *.cnc *.{pcb,sch,lht}.ps *.{pcb,sch,lht}.pdf *.csv *.xy
