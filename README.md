@@ -1,6 +1,6 @@
 gEDA-git-template
 =================
-Template project for hardware design using gEDA and gEDA's PCB 
+Template project for hardware design using gEDA with gschem, and pcb-rnd or geda pcb
 
 files
 ------
