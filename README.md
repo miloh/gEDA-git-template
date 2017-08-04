@@ -78,13 +78,9 @@ The main directory contains templates for a schematic built using gschem: and
 layout files for pcb-rnd (.lht) and  geda-pcb (.pcb):
 
 ```
-*.sch
-```
-```
-*.lht
-```
-```
-*.pcb
+*.sch	gschem file save format
+*.lht	pcb-rnd default save format 
+*.pcb	geda pcb file save format
 ```
 
 These all get processed using Make, with the included Makefile. Note this
