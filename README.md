@@ -4,17 +4,21 @@ Template project for hardware design using gEDA and gEDA's PCB
 
 files
 ------
+```
 Makefile
 schematic-template.sch
 layout-template.lht
 layout-template.pcb
 gafrc
 this file
+```
 
 git submodules
 --------------
+```
 ./geda-symbols 
 ./gpcb-footprints
+```
 
 
 Using the template to start a project
