@@ -1,0 +1,16 @@
+li:pcb-rnd-conf-v1 {
+ ha:overwrite {
+  ha:design {
+   fab_author = {}
+  }
+  ha:editor {
+   all_direction_lines = true
+  }
+  ha:rc {
+   li:library_search_paths {
+    ./gpcb-footprints
+    $(rc.path.share)/pcblib
+   }
+  }
+ }
+}
